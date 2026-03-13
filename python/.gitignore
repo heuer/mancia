@@ -1,0 +1,9 @@
+*.pyc
+*.so
+.[nt]ox/
+.venv/
+*.egg-info
+dist/
+build/
+__pycache__/
+

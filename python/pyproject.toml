@@ -1,0 +1,63 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+
+[project]
+name = "mancia"
+description = "scdoc to roff (man page) and rst (reStructuredText) converter"
+dynamic = ["version"]
+readme = "README.rst"
+license = {file = "LICENSE"}
+authors = [{"name" = "Lars Heuer"}]
+requires-python = ">=3.12"
+keywords = ["scdoc", "roff", "man", "rst", "reStructuredText", "man page"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Documentation",
+    "Topic :: Documentation :: Sphinx",
+    "Topic :: Utilities",
+]
+
+
+[project.urls]
+Homepage = "https://github.com/heuer/mancia/"
+Documentation = "https://mancia.readthedocs.io/"
+"Issue tracker" = "https://github.com/heuer/mancia/issues/"
+Changelog = "https://github.com/heuer/mancia/blob/main/python/CHANGES.rst"
+
+
+[project.scripts]
+pymancia = "mancia.cli:main"
+
+
+[project.optional-dependencies]
+sphinx = ["sphinx"]
+
+
+[tool.flit.sdist]
+include = ["docs/", "tests/",
+           "LICENSE",
+           "*.rst",  # CHANGES and README
+           "noxfile.py",
+           "MANIFEST.in",
+           "pyproject.toml"]
+exclude = [".github", ".*"]
+
+
+[tool.ruff]
+lint.select = ['E', 'F', 'N', 'W', 'UP', 'RUF']
+line-length = 88
+
+
+[[tool.mypy.overrides]]
+module = ["sphinx.*"]
+ignore_missing_imports = true
+

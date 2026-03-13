@@ -1,0 +1,4 @@
+sphinx
+furo<2026.01.01
+#mancia==0.1.0
+

@@ -1,0 +1,2 @@
+include LICENSE *.txt *.rst mancia/*.pyi mancia/py.typed pyproject.toml
+
