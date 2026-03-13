@@ -137,7 +137,7 @@ def finish_release(session):
     git('branch', '-d', release_branch)
     version_parts = version.split('.')
     patch = str(int(version_parts[2]) + 1)
-    next_version = '.'.join(chain(version_parts[:2], patch)) + '.dev'
+    next_version = '.'.join(chain(version_parts[:2], patch)) + '.dev0'
     _change_version(session, version, next_version)
     git('add', 'mancia/__init__.py')
     git('commit', '-m', 'Incremented Python development version')
@@ -151,14 +151,14 @@ def build_release(session):
     Builds a release: Creates sdist and wheel
     """
     version = _validate_version(session)
-    session.install('flit-core')
+    session.install('flit-core', 'build')
     git = partial(session.run, 'git', external=True)
     git('fetch')
     git('fetch', '--tags')
     git('checkout', f'python-{version}')
     _compile_ext(session)
     shutil.rmtree('dist', ignore_errors=True)
-    session.run('flit', 'build', external=True)
+    session.run('python', '-m', 'build', '--wheel', '--no-isolation', '-o', 'dist')
     git('checkout', 'main')
 
 
