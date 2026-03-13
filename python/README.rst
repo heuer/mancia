@@ -7,6 +7,6 @@ Install via::
 
     pip install mancia
 
-See `<https://mancia.readthedocs.io/python-and-sphinx.html>`_ for the
+See `<https://mancia.readthedocs.io/en/latest/python-and-sphinx.html>`_ for the
 documentation.
 
