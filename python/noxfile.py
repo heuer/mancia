@@ -93,7 +93,8 @@ def start_release(session):
     Prepares a release.
 
     * Creates a new branch release-VERSION_NUMBER
-    * Changes the version number in segno.__version__ to VERSION_NUMBER
+    * Creates a tag VERSION_NUMBER
+    * Changes the version number in mancia.__version__ to VERSION_NUMBER
     """
     session.install('packaging')
     git = partial(session.run, 'git', external=True)
@@ -109,7 +110,7 @@ def start_release(session):
     if not valid_version:
         session.error('Invalid version')
     release_branch = f'release-{version}'
-    git('checkout', '-b', release_branch, 'master')
+    git('checkout', '-b', release_branch, 'main')
     _change_version(session, prev_version, version)
     git('add', 'mancia/__init__.py')
     session.log(f'Now on branch "{release_branch}".'
@@ -124,7 +125,6 @@ def finish_release(session):
     Finishes the release.
 
     * Merges the branch release-VERSION_NUMBER into master
-    * Creates a tag VERSION_NUMBER
     * Increments the development version
     """
     version = _validate_version(session)
@@ -133,14 +133,14 @@ def finish_release(session):
     git('checkout', 'main')
     git('merge', '--no-ff', release_branch, '-m',
         f'Merge release branch {release_branch}')
-    git('tag', '-a', version, '-m', f'Release {version}')
+    git('tag', '-a', f'python-{version}', '-m', f'Python release {version}')
     git('branch', '-d', release_branch)
     version_parts = version.split('.')
     patch = str(int(version_parts[2]) + 1)
     next_version = '.'.join(chain(version_parts[:2], patch)) + '.dev'
     _change_version(session, version, next_version)
     git('add', 'mancia/__init__.py')
-    git('commit', '-m', 'Incremented development version')
+    git('commit', '-m', 'Incremented Python development version')
     session.log('Finished. Run git push / git push origin --tags and '
                 f'nox -e build-release -- {version} / nox -e upload-release')
 
@@ -155,7 +155,7 @@ def build_release(session):
     git = partial(session.run, 'git', external=True)
     git('fetch')
     git('fetch', '--tags')
-    git('checkout', version)
+    git('checkout', f'python-{version}')
     _compile_ext(session)
     shutil.rmtree('dist', ignore_errors=True)
     session.run('flit', 'build', external=True)
