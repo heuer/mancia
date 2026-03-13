@@ -14,7 +14,7 @@ other formats as well, such as HTML or Markdown, if an appropriate handler is
 implemented (the parser does not care about the output, it just reports
 events to a handler).
 
-An additional `Python package <https://pypi.org/mancia>`_ provides
+An additional `Python package <https://pypi.org/project/mancia/>`_ provides
 functionality for using mancia as Python library and within Sphinx.
 
 
