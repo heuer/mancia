@@ -6,5 +6,5 @@
 Mancia converts scdoc to roff and reStructuredText.
 """
 
-__version__ = '0.1.1.dev'
+__version__ = '0.1.1'
 
