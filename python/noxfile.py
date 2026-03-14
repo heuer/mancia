@@ -6,17 +6,14 @@
 Nox test runner configuration.
 """
 import os
-import sys
 import re
 from functools import partial
 from itertools import chain
 import shutil
 import nox
 
-_PY_DEFAULT_VERSION = sys.version[:4]
-_PY_VERSIONS = [_PY_DEFAULT_VERSION]
 
-nox.options.sessions = chain([f'test-{version}' for version in _PY_VERSIONS], ['lint'])
+nox.options.sessions = ['lint', 'test', 'docs', 'build']
 
 
 def _compile_ext(session):
@@ -28,7 +25,7 @@ def _compile_ext(session):
                 '--opt:size', 'mancia/converter', external=True)
 
 
-@nox.session(python=_PY_VERSIONS)
+@nox.session
 def test(session):
     """\
     Run test suite.
@@ -39,7 +36,7 @@ def test(session):
     session.run('pytest')
 
 
-@nox.session(python=_PY_DEFAULT_VERSION)
+@nox.session
 def docs(session):
     """\
     Build the documentation.
@@ -55,7 +52,7 @@ def docs(session):
     sphinx_build('-b', 'html', html)
 
 
-@nox.session(python=_PY_DEFAULT_VERSION)
+@nox.session
 def lint(session):
     """\
     Run linters.
@@ -65,7 +62,7 @@ def lint(session):
     session.run('ruff', 'check', '.')
 
 
-@nox.session(name='build', python=_PY_DEFAULT_VERSION)
+@nox.session
 def build(session):
     """\
     Builds a wheel from local source.
@@ -87,7 +84,7 @@ def build(session):
 #
 
 
-@nox.session(name='start-release', python=_PY_DEFAULT_VERSION)
+@nox.session(name='start-release')
 def start_release(session):
     """\
     Prepares a release.
@@ -119,7 +116,7 @@ def start_release(session):
     session.log(f'When done, call nox -e finish-release -- {version}')
 
 
-@nox.session(name='finish-release', python=_PY_DEFAULT_VERSION)
+@nox.session(name='finish-release')
 def finish_release(session):
     """\
     Finishes the release.
@@ -145,7 +142,7 @@ def finish_release(session):
                 f'nox -e build-release -- {version} / nox -e upload-release')
 
 
-@nox.session(name='build-release', python=_PY_DEFAULT_VERSION)
+@nox.session(name='build-release')
 def build_release(session):
     """\
     Builds a release: Creates sdist and wheel
@@ -162,7 +159,7 @@ def build_release(session):
     git('checkout', 'main')
 
 
-@nox.session(name='upload-release', python=_PY_DEFAULT_VERSION)
+@nox.session(name='upload-release')
 def upload_release(session):
     """\
     Uploads a release to PyPI
