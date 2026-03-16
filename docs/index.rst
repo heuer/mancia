@@ -30,12 +30,34 @@ Contents
 --------
 
 .. toctree::
+    :caption: Usage
     :maxdepth: 4
 
     usage
+
+.. toctree::
+    :caption: Differences
+    :maxdepth: 4
+
     scdoc-mancia-differences
     roff-rst-differences
-    man/index
+
+.. toctree::
+    :caption: man pages
+    :maxdepth: 4
+
+    man/mancia.1
+    man/mancia.5
+
+.. toctree::
+    :caption: Python
+    :maxdepth: 4
+
     python-and-sphinx
+
+.. toctree::
+    :caption: Meta
+    :maxdepth: 4
+
     changes
 
