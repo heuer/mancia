@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 # SPDX-FileCopyrightText: Copyright (c) 2026 -- Lars Heuer
 #
-## Converters to for scdoc to roff and rst
+## Converters from scdoc to roff and rst
 import std/streams
 import nimpy
 import mancia
