@@ -566,7 +566,8 @@ const
 func error(msg: string, line: int, col = -1) {.noReturn.} =
   let location = if col >= 0: $line & ":" & $col else: $line
   var ex = new_exception(ScdocError, "Error at " & location & ": " & msg)
-  ex.line = line
+  {.cast(noSideEffect).}:
+    ex.line = line
   raise ex
 
 
