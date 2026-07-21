@@ -12,7 +12,9 @@
 import std/[os, streams, strutils, unicode, times]
 
 
-const VERSION = "0.1.0"
+const
+  NIMBLE_PKG_VERSION {.strdefine.}: string = "unknown"
+  VERSION = NIMBLE_PKG_VERSION
 
 
 type
