@@ -69,10 +69,10 @@ type
     ## If the parser detects an error, the output may be invalid.
 
     doc_start*: proc ()
-    ## This is the very first event, followed by ``preable``.
+    ## This is the very first event, followed by ``preamble``.
     doc_end*: proc ()
     ## Indicates the end of the document. No more events will be emitted after
-    ## this. This event may be omitted if a parser error happens.
+    ## this. This event may be omitted if a parser error occurs.
     preamble*: proc (name, section, date, left_footer, center_header: string)
     ## The preamble is emitted after doc_start and before any other events.
     section*: proc (title: string, level: uint)
@@ -1021,7 +1021,8 @@ when is_main_module and not defined(js):
   proc main() =
     var
       handler = roff_handler
-      p = init_opt_parser()
+      p = init_opt_parser(short_no_val={'h', 'v'},
+                          long_no_val= @["help", "version"], mode=LaxMode)
     while true:
       p.next()
       case p.kind
@@ -1029,7 +1030,7 @@ when is_main_module and not defined(js):
       of cmd_short_option, cmd_long_option:
         case p.key
         of "v", "version": stdout.write_line("mancia version " & VERSION); quit(0)
-        of "h", "help": stdout.write(USAGE); quit(0)
+        of "h", "help": stdout.write_line(USAGE); quit(0)
         else:
           stderr.write_line("Error: Unknown option '", p.key, "'")
           stderr.write(USAGE)
