@@ -965,8 +965,9 @@ proc parse_document(p: var ScdocParser) =
       of '[', '|', ']':
         parse_table(p, line)
         continue
-      of ' ': error("Tabs are required for indentation", p.line, i)
       else: discard
+    if line[i] == ' ':
+      error("Tabs are required for indentation", p.line, i)
     if line.strip(trailing=false) == "```":
       parse_literal_block(p)
       continue
@@ -980,6 +981,8 @@ proc parse_document(p: var ScdocParser) =
       var tabs = 0
       skip_while(line, tabs, '\t')
       if tabs != i: break
+      if tabs < line.len and line[tabs] == ' ':
+        error("Tabs are required for indentation", p.line, tabs)
       if line.strip(trailing=false) == "```": break
       if tabs + 1 < line.len and
         line[tabs] in {'-', '.', '#', ';', '[', '|', ']'}:

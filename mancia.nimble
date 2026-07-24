@@ -1,4 +1,4 @@
-version = "0.1.0"
+version = "0.2.0"
 author = "Lars Heuer"
 description = "scdoc to man page and reStructuredText converter"
 license = "MIT"

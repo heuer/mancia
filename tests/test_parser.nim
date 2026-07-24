@@ -315,6 +315,24 @@ This is _italic and *bold* text_.
     expect(ScdocError):
       parse(s)
 
+  test "invalid indentation: space directly after a leading tab":
+    let s = "test(1)\n\n\tIndent level 1.\n\t Space right after the tab.\n"
+    expect(ScdocError):
+      parse(s)
+
+  test "invalid indentation: spaces used for a paragraph continuation line":
+    let s = "test(1)\n\nFirst line of the paragraph.\n Second line indented with a stray space.\n"
+    expect(ScdocError):
+      parse(s)
+
+  test "valid indentation: list continuation allows two spaces":
+    let s = "test(1)\n\n- Item one\n  continuation of item one.\n"
+    parse(s)
+
+  test "valid indentation: literal block content may contain spaces":
+    let s = "test(1)\n```\ndef main():\n    print(\"Hello world\")\n\n```\n"
+    parse(s)
+
   test "invalid indentation (more than one level)":
     let s = """test(1)
 
