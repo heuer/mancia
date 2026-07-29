@@ -828,7 +828,7 @@ proc parse_table(p: var ScdocParser, first_line: string) =
                    of '>': ca_right_expand
                    else:   ca_left
       inc i
-    else: error("Expected alignment character, got '" & line[i] & "'", p.line, i)
+    else: error("Expected alignment indicator '[', '-', ']', '<', '=', or '>', got '" & line[i] & "'", p.line, i)
     if prev_row_aligns.len <= col:
       prev_row_aligns.add(cell_align)
     else:
